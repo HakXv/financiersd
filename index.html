@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Parure - Frise Chronologique Financière & Mathématique</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            100: '#fff9e6',
+                            200: '#fef0c7',
+                            300: '#fde047',
+                            400: '#eab308',
+                            500: '#d4af37',
+                            600: '#b8860b',
+                            700: '#8b6508',
+                            800: '#5c4306',
+                            900: '#382803',
+                        },
+                        vintage: {
+                            black: '#0a0908',
+                            dark: '#14110f',
+                            paper: '#1a1612',
+                            card: '#241e18',
+                            accent: '#2d251e',
+                            light: '#f4ecd8'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'gold-glow': '0 0 25px -5px rgba(212, 175, 55, 0.35)',
+                        'gold-glow-lg': '0 0 50px -10px rgba(212, 175, 55, 0.5)',
+                        'inner-gold': 'inset 0 0 15px rgba(212, 175, 55, 0.2)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Custom Scrollbar & Aesthetics */
+        ::-webkit-scrollbar {
+            height: 10px;
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #14110f;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, #8b6508, #d4af37, #8b6508);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fff2c4 0%, #d4af37 50%, #aa7c11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border {
+            border-image: linear-gradient(to bottom right, #d4af37, #5c4306, #d4af37) 1;
+        }
+
+        .ornate-card {
+            background: linear-gradient(145deg, rgba(36, 30, 24, 0.95), rgba(20, 17, 15, 0.98));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .ornate-card:hover {
+            border-color: rgba(212, 175, 55, 0.8);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Ambient floating particles canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Timeline Horizontal Track Line Glow */
+        .timeline-line {
+            background: linear-gradient(90deg, 
+                rgba(212, 175, 55, 0.1) 0%, 
+                rgba(212, 175, 55, 0.9) 15%, 
+                rgba(243, 229, 171, 1) 50%, 
+                rgba(212, 175, 55, 0.9) 85%, 
+                rgba(212, 175, 55, 0.1) 100%);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-vintage-black text-vintage-light font-sans min-h-screen flex flex-col justify-between overflow-x-hidden relative selection:bg-gold-500 selection:text-vintage-black">
+
+    <!-- Canvas Background for Particles -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Content Container -->
+    <div class="relative z-10 flex flex-col min-h-screen justify-between p-4 md:p-8 max-w-[1700px] mx-auto w-full">
+
+        <!-- HEADER SECTION -->
+        <header class="text-center mb-6 relative">
+            <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-semibold tracking-widest uppercase mb-3 backdrop-blur-md">
+                <svg class="w-4 h-4 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                Guy de Maupassant — Étude Financière & Littéraire (1884)
+            </div>
+
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-cinzel font-black tracking-wide gold-gradient-text drop-shadow-md uppercase mb-2">
+                LA PARURE
+            </h1>
+            <p class="text-lg md:text-xl font-playfair italic text-gold-200/80 max-w-3xl mx-auto">
+                "Frise chronologique et analyse mathématique de la ruine des Loisel"
+            </p>
+
+            <!-- Top Toolbar Controls -->
+            <div class="absolute right-0 top-0 hidden md:flex items-center gap-3">
+                <button id="soundToggle" onclick="toggleSound()" class="px-3 py-2 rounded-lg bg-vintage-card border border-gold-500/40 text-gold-300 hover:bg-gold-500/20 text-xs font-semibold flex items-center gap-2 transition" title="Activer / Désactiver les effets sonores">
+                    <svg id="soundIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                    <span id="soundText">Sons: ON</span>
+                </button>
+                <button onclick="toggleFullscreen()" class="px-3 py-2 rounded-lg bg-vintage-card border border-gold-500/40 text-gold-300 hover:bg-gold-500/20 text-xs font-semibold flex items-center gap-2 transition" title="Plein écran pour projecteur classe">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                    <span>Mode Projecteur</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN TIMELINE CONTAINER -->
+        <main class="my-auto py-6">
+            
+            <!-- Navigation scroll helpers -->
+            <div class="flex justify-between items-center mb-3 px-2">
+                <span class="text-xs font-cinzel text-gold-400 tracking-wider flex items-center gap-2">
+                    <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    Faites défiler horizontalement ou cliquez sur un événement
+                </span>
+                <div class="flex gap-2">
+                    <button onclick="scrollTimeline(-350)" class="p-2 rounded-full bg-vintage-card border border-gold-500/40 text-gold-400 hover:bg-gold-500 hover:text-vintage-black transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button onclick="scrollTimeline(350)" class="p-2 rounded-full bg-vintage-card border border-gold-500/40 text-gold-400 hover:bg-gold-500 hover:text-vintage-black transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scrollable Track Area -->
+            <div id="timelineScroll" class="overflow-x-auto pb-8 pt-4 no-scrollbar relative rounded-2xl border border-gold-500/20 bg-vintage-paper/50 backdrop-blur-md p-6">
+                
+                <!-- Central Horizontal Gold Axis Line -->
+                <div class="absolute top-[52%] left-10 right-10 h-1.5 timeline-line rounded-full z-0"></div>
+
+                <div class="inline-flex gap-8 md:gap-12 min-w-max px-8 relative z-10 items-center">
+                    
+                    <!-- MILESTONE 1 -->
+                    <div class="timeline-card flex flex-col items-center w-72 md:w-80 group cursor-pointer" onclick="openDetails(0)">
+                        <!-- Card Top (Event & Value) -->
+                        <div class="ornate-card w-full p-5 rounded-2xl text-center mb-6 relative">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-600 text-vintage-black text-[10px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full shadow">Étape 1</span>
+                            <div class="w-14 h-14 mx-auto mb-3 text-gold-400 flex items-center justify-center bg-vintage-black/60 rounded-full border border-gold-500/30 group-hover:scale-110 transition duration-300">
+                                <!-- SVG Dress / Coins -->
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-cinzel text-gold-300 text-sm font-bold tracking-wider uppercase mb-1">Économies pour la Robe</h3>
+                            <div class="text-3xl font-black font-playfair text-gold-400 mb-2">400 F</div>
+                            <p class="text-xs text-vintage-light/80 line-clamp-2">M. Loisel cède ses économies destinées à l'achat d'un fusil de chasse.</p>
+                        </div>
+                        <!-- Node on axis -->
+                        <div class="w-8 h-8 rounded-full bg-vintage-black border-4 border-gold-500 shadow-gold-glow flex items-center justify-center font-bold text-xs text-gold-300 group-hover:scale-125 transition duration-300 z-10">1</div>
+                        <div class="text-[11px] font-cinzel text-gold-500/80 mt-3 font-semibold">Le Bal du Ministère</div>
+                    </div>
+
+                    <!-- MILESTONE 2 -->
+                    <div class="timeline-card flex flex-col items-center w-72 md:w-80 group cursor-pointer" onclick="openDetails(1)">
+                        <div class="text-[11px] font-cinzel text-gold-500/80 mb-3 font-semibold">L'Illusion du Luxe</div>
+                        <div class="w-8 h-8 rounded-full bg-vintage-black border-4 border-gold-500 shadow-gold-glow flex items-center justify-center font-bold text-xs text-gold-300 group-hover:scale-125 transition duration-300 z-10">2</div>
+                        <div class="ornate-card w-full p-5 rounded-2xl text-center mt-6 relative">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-600 text-vintage-black text-[10px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full shadow">Étape 2</span>
+                            <div class="w-14 h-14 mx-auto mb-3 text-gold-400 flex items-center justify-center bg-vintage-black/60 rounded-full border border-gold-500/30 group-hover:scale-110 transition duration-300">
+                                <!-- SVG Necklace / Faux Jewels -->
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-cinzel text-gold-300 text-sm font-bold tracking-wider uppercase mb-1">Valeur de l'Original</h3>
+                            <div class="text-3xl font-black font-playfair text-gold-400 mb-2">500 F</div>
+                            <p class="text-xs text-vintage-light/80 line-clamp-2">Valeur réelle de la rivière en strass empruntée à Mme Forestier.</p>
+                        </div>
+                    </div>
+
+                    <!-- MILESTONE 3 -->
+                    <div class="timeline-card flex flex-col items-center w-72 md:w-80 group cursor-pointer" onclick="openDetails(2)">
+                        <div class="ornate-card w-full p-5 rounded-2xl text-center mb-6 relative border-red-500/40">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-800 text-gold-200 text-[10px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full shadow">La Catastrophe</span>
+                            <div class="w-14 h-14 mx-auto mb-3 text-red-400 flex items-center justify-center bg-vintage-black/60 rounded-full border border-red-500/30 group-hover:scale-110 transition duration-300">
+                                <!-- SVG Gem Diamond -->
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 2L2 7l10 15 10-15-10-5zM2 7h20"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-cinzel text-red-300 text-sm font-bold tracking-wider uppercase mb-1">Achat du Remplacement</h3>
+                            <div class="text-3xl font-black font-playfair text-red-400 mb-2">36 000 F</div>
+                            <p class="text-xs text-vintage-light/80 line-clamp-2">Prix négocié au Palais-Royal pour un collier en diamants véritables.</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-red-950 border-4 border-red-500 shadow-gold-glow flex items-center justify-center font-bold text-xs text-red-300 group-hover:scale-125 transition duration-300 z-10">3</div>
+                        <div class="text-[11px] font-cinzel text-red-400/80 mt-3 font-semibold">Le Remplacement</div>
+                    </div>
+
+                    <!-- MILESTONE 4 -->
+                    <div class="timeline-card flex flex-col items-center w-72 md:w-80 group cursor-pointer" onclick="openDetails(3)">
+                        <div class="text-[11px] font-cinzel text-gold-500/80 mb-3 font-semibold">Le Purgatoire</div>
+                        <div class="w-8 h-8 rounded-full bg-vintage-black border-4 border-gold-500 shadow-gold-glow flex items-center justify-center font-bold text-xs text-gold-300 group-hover:scale-125 transition duration-300 z-10">4</div>
+                        <div class="ornate-card w-full p-5 rounded-2xl text-center mt-6 relative">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-600 text-vintage-black text-[10px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full shadow">Étape 4</span>
+                            <div class="w-14 h-14 mx-auto mb-3 text-gold-400 flex items-center justify-center bg-vintage-black/60 rounded-full border border-gold-500/30 group-hover:scale-110 transition duration-300">
+                                <!-- SVG Hourglass -->
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-cinzel text-gold-300 text-sm font-bold tracking-wider uppercase mb-1">Durée du Labeur</h3>
+                            <div class="text-3xl font-black font-playfair text-gold-400 mb-2">10 ANS</div>
+                            <p class="text-xs text-vintage-light/80 line-clamp-2">Dix années d'abnégation, de travaux harassants et d'usure physique.</p>
+                        </div>
+                    </div>
+
+                    <!-- MILESTONE 5 -->
+                    <div class="timeline-card flex flex-col items-center w-72 md:w-80 group cursor-pointer" onclick="openDetails(4)">
+                        <div class="ornate-card w-full p-5 rounded-2xl text-center mb-6 relative">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-600 text-vintage-black text-[10px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full shadow">Étape 5</span>
+                            <div class="w-14 h-14 mx-auto mb-3 text-gold-400 flex items-center justify-center bg-vintage-black/60 rounded-full border border-gold-500/30 group-hover:scale-110 transition duration-300">
+                                <!-- SVG Calendar Annual -->
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-cinzel text-gold-300 text-sm font-bold tracking-wider uppercase mb-1">Remboursement Annuel</h3>
+                            <div class="text-3xl font-black font-playfair text-gold-400 mb-2">3 600 F / an</div>
+                            <p class="text-xs text-vintage-light/80 line-clamp-2">Pression financière annuelle colossale sur le budget du foyer.</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-vintage-black border-4 border-gold-500 shadow-gold-glow flex items-center justify-center font-bold text-xs text-gold-300 group-hover:scale-125 transition duration-300 z-10">5</div>
+                        <div class="text-[11px] font-cinzel text-gold-500/80 mt-3 font-semibold">Amortissement Annuel</div>
+                    </div>
+
+                    <!-- MILESTONE 6 -->
+                    <div class="timeline-card flex flex-col items-center w-72 md:w-80 group cursor-pointer" onclick="openDetails(5)">
+                        <div class="text-[11px] font-cinzel text-gold-500/80 mb-3 font-semibold">Sacrifice Quotidien</div>
+                        <div class="w-8 h-8 rounded-full bg-vintage-black border-4 border-gold-500 shadow-gold-glow flex items-center justify-center font-bold text-xs text-gold-300 group-hover:scale-125 transition duration-300 z-10">6</div>
+                        <div class="ornate-card w-full p-5 rounded-2xl text-center mt-6 relative">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-600 text-vintage-black text-[10px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full shadow">Étape 6</span>
+                            <div class="w-14 h-14 mx-auto mb-3 text-gold-400 flex items-center justify-center bg-vintage-black/60 rounded-full border border-gold-500/30 group-hover:scale-110 transition duration-300">
+                                <!-- SVG Ledger / Coins -->
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-cinzel text-gold-300 text-sm font-bold tracking-wider uppercase mb-1">Remboursement Mensuel</h3>
+                            <div class="text-3xl font-black font-playfair text-gold-400 mb-2">300 F / mois</div>
+                            <p class="text-xs text-vintage-light/80 line-clamp-2">Loisel copie des livres la nuit pour 5 sous la page.</p>
+                        </div>
+                    </div>
+
+                    <!-- MILESTONE 7 -->
+                    <div class="timeline-card flex flex-col items-center w-72 md:w-80 group cursor-pointer" onclick="openDetails(6)">
+                        <div class="ornate-card w-full p-5 rounded-2xl text-center mb-6 relative border-amber-500/40">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-600 text-vintage-black text-[10px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full shadow">L'Écart Financier</span>
+                            <div class="w-14 h-14 mx-auto mb-3 text-amber-400 flex items-center justify-center bg-vintage-black/60 rounded-full border border-amber-500/30 group-hover:scale-110 transition duration-300">
+                                <!-- SVG Scale Balance -->
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-cinzel text-amber-300 text-sm font-bold tracking-wider uppercase mb-1">Perte Nette Absolue</h3>
+                            <div class="text-3xl font-black font-playfair text-amber-400 mb-2">35 500 F</div>
+                            <p class="text-xs text-vintage-light/80 line-clamp-2">La différence dévastatrice (36 000 F - 500 F) payée inutilement.</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-vintage-black border-4 border-amber-500 shadow-gold-glow flex items-center justify-center font-bold text-xs text-amber-300 group-hover:scale-125 transition duration-300 z-10">7</div>
+                        <div class="text-[11px] font-cinzel text-amber-400/80 mt-3 font-semibold">Différence Révélée</div>
+                    </div>
+
+                    <!-- MILESTONE 8 -->
+                    <div class="timeline-card flex flex-col items-center w-72 md:w-80 group cursor-pointer" onclick="openDetails(7)">
+                        <div class="text-[11px] font-cinzel text-gold-400 mb-3 font-semibold">La Chute Ironique</div>
+                        <div class="w-8 h-8 rounded-full bg-gold-500 border-4 border-vintage-black shadow-gold-glow-lg flex items-center justify-center font-bold text-xs text-vintage-black group-hover:scale-125 transition duration-300 z-10">8</div>
+                        <div class="ornate-card w-full p-5 rounded-2xl text-center mt-6 relative border-gold-400">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-400 text-vintage-black text-[10px] font-extrabold uppercase tracking-widest px-3 py-0.5 rounded-full shadow">Le Ratio Tragique</span>
+                            <div class="w-14 h-14 mx-auto mb-3 text-gold-300 flex items-center justify-center bg-vintage-black/60 rounded-full border border-gold-400/40 group-hover:scale-110 transition duration-300">
+                                <!-- SVG Multiplier / Shock -->
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="font-cinzel text-gold-300 text-sm font-bold tracking-wider uppercase mb-1">Facteur de Surcoût</h3>
+                            <div class="text-3xl font-black font-playfair text-gold-300 mb-2">72 FOIS</div>
+                            <p class="text-xs text-vintage-light/80 line-clamp-2">Le collier de remplacement a coûté 72 fois la valeur de l'original.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- INTERACTIVE CALCULATOR SLIDER SECTION -->
+        <section class="mb-6 ornate-card p-5 rounded-2xl border-gold-500/30">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-center md:text-left">
+                    <h4 class="font-cinzel text-gold-300 text-sm font-bold uppercase tracking-wider flex items-center justify-center md:justify-start gap-2">
+                        <svg class="w-4 h-4 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        Simulateur d'Amortissement de la Dette
+                    </h4>
+                    <p class="text-xs text-vintage-light/70">Ajustez les années pour voir l'accumulation de l'effort financier des Loisel.</p>
+                </div>
+                
+                <div class="flex-1 max-w-xl w-full px-4">
+                    <div class="flex justify-between text-xs font-semibold text-gold-400 mb-1">
+                        <span>Année 1</span>
+                        <span id="sliderYearText" class="text-sm font-bold text-gold-200">Année 5 / 10</span>
+                        <span>Année 10</span>
+                    </div>
+                    <input type="range" id="yearSlider" min="1" max="10" value="5" oninput="updateCalculator(this.value)" class="w-full accent-gold-500 bg-vintage-dark h-2 rounded-lg cursor-pointer">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-center min-w-[220px]">
+                    <div class="bg-vintage-black/60 p-2 rounded-xl border border-gold-500/20">
+                        <div class="text-[10px] uppercase font-cinzel text-gold-500">Total Remboursé</div>
+                        <div id="calcTotal" class="text-lg font-bold font-playfair text-gold-300">18 000 F</div>
+                    </div>
+                    <div class="bg-vintage-black/60 p-2 rounded-xl border border-gold-500/20">
+                        <div class="text-[10px] uppercase font-cinzel text-red-400">Reste à Payer</div>
+                        <div id="calcRemaining" class="text-lg font-bold font-playfair text-red-400">18 000 F</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTTOM MATHEMATICAL CONCLUSION PANEL -->
+        <footer class="ornate-card p-6 md:p-8 rounded-3xl border-2 border-gold-500/50 shadow-gold-glow relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none text-gold-400">
+                <!-- Large Decorative Math Symbol -->
+                <svg class="w-80 h-80" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm3 12H9v-2h6v2zm3-4H6v-2h12v2z"/></svg>
+            </div>
+
+            <div class="text-center mb-6">
+                <span class="px-3 py-1 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/40 text-xs font-cinzel font-bold uppercase tracking-widest">
+                    Synthèse Pédagogique
+                </span>
+                <h2 class="text-xl md:text-3xl font-cinzel font-black gold-gradient-text uppercase mt-2">
+                    Bilan & Équations Mathématiques Principales
+                </h2>
+            </div>
+
+            <!-- 4 Main Formula Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 relative z-10">
+                
+                <!-- Formula 1 -->
+                <div class="bg-vintage-black/80 p-5 rounded-2xl border border-gold-500/30 text-center hover:border-gold-400 transition">
+                    <div class="text-xs font-cinzel text-gold-400 uppercase tracking-wider mb-2 font-semibold">Remboursement Annuel</div>
+                    <div class="text-2xl md:text-3xl font-playfair font-black text-gold-200 my-1">
+                        36 000 ÷ 10
+                    </div>
+                    <div class="text-lg font-bold text-gold-400 font-sans">
+                        = 3 600 <span class="text-xs font-normal text-vintage-light/70">francs / an</span>
+                    </div>
+                    <p class="text-[11px] text-vintage-light/60 mt-2 italic">Effort financier moyen fourni chaque année pendant une décennie.</p>
+                </div>
+
+                <!-- Formula 2 -->
+                <div class="bg-vintage-black/80 p-5 rounded-2xl border border-gold-500/30 text-center hover:border-gold-400 transition">
+                    <div class="text-xs font-cinzel text-gold-400 uppercase tracking-wider mb-2 font-semibold">Remboursement Mensuel</div>
+                    <div class="text-2xl md:text-3xl font-playfair font-black text-gold-200 my-1">
+                        36 000 ÷ 120
+                    </div>
+                    <div class="text-lg font-bold text-gold-400 font-sans">
+                        = 300 <span class="text-xs font-normal text-vintage-light/70">francs / mois</span>
+                    </div>
+                    <p class="text-[11px] text-vintage-light/60 mt-2 italic">Calculé sur 120 mois (10 ans × 12 mois d'abnégation complète).</p>
+                </div>
+
+                <!-- Formula 3 -->
+                <div class="bg-vintage-black/80 p-5 rounded-2xl border border-gold-500/30 text-center hover:border-gold-400 transition">
+                    <div class="text-xs font-cinzel text-gold-400 uppercase tracking-wider mb-2 font-semibold">Facteur de Surcoût</div>
+                    <div class="text-2xl md:text-3xl font-playfair font-black text-gold-200 my-1">
+                        36 000 ÷ 500
+                    </div>
+                    <div class="text-lg font-bold text-gold-400 font-sans">
+                        = 72 <span class="text-xs font-normal text-vintage-light/70">fois plus cher</span>
+                    </div>
+                    <p class="text-[11px] text-vintage-light/60 mt-2 italic">Le collier acheté valait 72 fois le bijou original en strass.</p>
+                </div>
+
+                <!-- Formula 4 -->
+                <div class="bg-vintage-black/80 p-5 rounded-2xl border border-red-500/40 text-center hover:border-red-400 transition">
+                    <div class="text-xs font-cinzel text-red-400 uppercase tracking-wider mb-2 font-semibold">Perte Nette Absolue</div>
+                    <div class="text-2xl md:text-3xl font-playfair font-black text-red-300 my-1">
+                        36 000 - 500
+                    </div>
+                    <div class="text-lg font-bold text-red-400 font-sans">
+                        = 35 500 <span class="text-xs font-normal text-vintage-light/70">francs perdus</span>
+                    </div>
+                    <p class="text-[11px] text-vintage-light/60 mt-2 italic">Capital financier et humain sacrifié purement par illusion.</p>
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- MODAL FOR DETAILED MILESTONE ANALYSIS -->
+    <div id="detailModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="ornate-card max-w-2xl w-full p-6 md:p-8 rounded-3xl border-2 border-gold-500 shadow-gold-glow-lg relative transform scale-95 transition-transform duration-300" id="modalContainer">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gold-400 hover:text-gold-200 p-2 rounded-full bg-vintage-black/50 border border-gold-500/30">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div class="flex items-center gap-3 mb-4">
+                <span id="modalBadge" class="px-3 py-1 rounded-full bg-gold-600 text-vintage-black text-xs font-bold uppercase tracking-widest">Étape</span>
+                <span id="modalCategory" class="text-xs font-cinzel text-gold-400 uppercase tracking-wider">Contexte Littéraire</span>
+            </div>
+
+            <h3 id="modalTitle" class="text-2xl md:text-3xl font-cinzel font-bold text-gold-300 mb-2">Titre de l'étape</h3>
+            <div id="modalValue" class="text-3xl font-playfair font-black text-gold-400 mb-4">0 F</div>
+
+            <div class="space-y-4 text-sm text-vintage-light/90 leading-relaxed border-t border-gold-500/20 pt-4">
+                <p id="modalDescription">Description détaillée de l'événement...</p>
+                <div class="bg-vintage-black/60 p-4 rounded-xl border border-gold-500/20">
+                    <h4 class="font-cinzel text-gold-400 text-xs font-bold uppercase tracking-wider mb-1">Analyse Mathématique & Littéraire</h4>
+                    <p id="modalAnalysis" class="text-xs text-vintage-light/80 italic">Analyse...</p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeModal()" class="px-6 py-2 rounded-xl bg-gold-500 hover:bg-gold-400 text-vintage-black font-semibold text-sm transition shadow-md">
+                    Fermer la fiche
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Milestone Detailed Data
+        const milestonesData = [
+            {
+                badge: "Étape 1",
+                category: "Économies Personnelles",
+                title: "Robe de Bal pour Mathilde",
+                value: "400 Francs",
+                description: "M. Loisel, commis au ministère de l'Instruction publique, avait mis de côté exactement 400 francs pour s'acheter un fusil de chasse et s'offrir des parties de chasse l'été suivant avec des amis dans la plaine de Nanterre.",
+                analysis: "Pour satisfaire le désir de paratre de son épouse lors du bal, il renonce généreusement à son unique projet personnel. Ces 400 francs représentent une somme considérable pour un petit employé du XIXe siècle."
+            },
+            {
+                badge: "Étape 2",
+                category: "L'Illusion du Luxe",
+                title: "Valeur de la Rivière d'Imitation",
+                value: "500 Francs",
+                description: "Mathilde Loisel emprunte une superbe rivière de diamants à son amie riche, Mme Jeanne Forestier. Cependant, la parure n'était faite que d'imitations en strass et doublée de laiton.",
+                analysis: "Le quiproquo tragique repose sur cette valeur : le bijou emprunté ne valait pas plus de 500 francs. L'apparence trompeuse du luxe va causer la perte du couple."
+            },
+            {
+                badge: "Étape 3",
+                category: "La Ruine Financière",
+                title: "Prix de Remplacement en Vrais Diamants",
+                value: "36 000 Francs",
+                description: "Ayant perdu le collier après le bal, les Loisel cherchent à le remplacer sans en avertir Mme Forestier. Ils trouvent un collier identique chez un bijoutier du Palais-Royal. Affiché à 40 000 francs, ils l'obtiennent pour 36 000 francs.",
+                analysis: "M. Loisel possède 18 000 francs hérités de son père. Il doit emprunter les 18 000 francs restants en s'adressant à des usuriers, souscrivant des engagements ruineux à des taux usuraires."
+            },
+            {
+                badge: "Étape 4",
+                category: "Le Purgatoire social",
+                title: "Durée Totale de Remboursement",
+                value: "10 Ans",
+                description: "Il aura fallu dix années complètes pour tout rembourser,y compris le capital, les intérêts accumulés et le renouvellement des billets d'échéance.",
+                analysis: "Dix ans durant lesquels Mathilde connut la vraie vie des pauvres : travaux ménagers lourds, usure des mains, logement sous les toits, renoncement à tout confort."
+            },
+            {
+                badge: "Étape 5",
+                category: "Moyenne Annuelle",
+                title: "Charge Financière Annuelle",
+                value: "3 600 Francs / an",
+                description: "Chaque année, le ménage devait dégager 3 600 francs pour honorer le remboursements des emprunts et des intérêts.",
+                analysis: "Equation : 36 000 F ÷ 10 ans = 3 600 F/an. Cette charge dépasse largement le salaire annuel de base d'un petit fonctionnaire de l'époque."
+            },
+            {
+                badge: "Étape 6",
+                category: "Effort Mensuel",
+                title: "Remboursement & Travail Nocturne",
+                value: "300 Francs / mois",
+                description: "Chaque mois, 300 francs devaient être rassemblés. Pour y parvenir, M. Loisel faisait le soir la comptabilité d'un commerçant et la nuit, il copiait des manuscrits à 5 sous la page.",
+                analysis: "Equation : 36 000 F ÷ 120 mois = 300 F/mois. Le travail supplémentaire et les privations extrêmes étaient indispensables jour après jour."
+            },
+            {
+                badge: "Étape 7",
+                category: "Bilan Economique",
+                title: "La Différence Exorbitante",
+                value: "35 500 Francs",
+                description: "La différence entre le prix du vrai collier acheté (36 000 F) et la valeur du collier d'imitation perdu (500 F).",
+                analysis: "Equation : 36 000 F - 500 F = 35 500 F. C'est le montant exact du gâchis financier et de la perte nette subie par le couple."
+            },
+            {
+                badge: "Étape 8",
+                category: "La Chute Ironique",
+                title: "Le Multiplicateur de la Tragédie",
+                value: "72 Fois plus cher",
+                description: "Le bijou acheté en diamants véritables coûtait 72 fois plus cher que la parure originale en strass qu'ils avaient perdue.",
+                analysis: "Equation : 36 000 F ÷ 500 F = 72. Ce chiffre illustre la cruauté ironique de la nouvelle de Maupassant."
+            }
+        ];
+
+        // Sound Web Audio API Synthesis
+        let soundEnabled = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playGoldTone() {
+            if (!soundEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // A5
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundText').innerText = soundEnabled ? "Sons: ON" : "Sons: OFF";
+        }
+
+        // Horizontal Timeline Scroll Handler
+        function scrollTimeline(offset) {
+            const container = document.getElementById('timelineScroll');
+            container.scrollBy({ left: offset, behavior: 'smooth' });
+            playGoldTone();
+        }
+
+        // Interactive Modal
+        function openDetails(index) {
+            playGoldTone();
+            const data = milestonesData[index];
+            document.getElementById('modalBadge').innerText = data.badge;
+            document.getElementById('modalCategory').innerText = data.category;
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalValue').innerText = data.value;
+            document.getElementById('modalDescription').innerText = data.description;
+            document.getElementById('modalAnalysis').innerText = data.analysis;
+
+            const modal = document.getElementById('detailModal');
+            const container = document.getElementById('modalContainer');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            container.classList.remove('scale-95');
+            container.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            const container = document.getElementById('modalContainer');
+            container.classList.remove('scale-100');
+            container.classList.add('scale-95');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Debt Calculator Slider
+        function updateCalculator(years) {
+            document.getElementById('sliderYearText').innerText = `Année ${years} / 10`;
+            const totalRepaid = years * 3600;
+            const remaining = 36000 - totalRepaid;
+
+            document.getElementById('calcTotal').innerText = `${totalRepaid.toLocaleString('fr-FR')} F`;
+            document.getElementById('calcRemaining').innerText = `${remaining.toLocaleString('fr-FR')} F`;
+        }
+
+        // Fullscreen toggle for classroom presentation
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Ambient Background Particle Effect
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = -(Math.random() * 0.4 + 0.1);
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.y += this.speedY;
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 45; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.onload = function() {
+            animateParticles();
+        };
+    </script>
+</body>
+</html>
